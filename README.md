@@ -1,2 +1,1 @@
-# Cw2
-2 cwiczenia z APBD
+# Cw2 Urszula Tarasewicz 12c s18309
