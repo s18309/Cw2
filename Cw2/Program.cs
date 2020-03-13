@@ -17,18 +17,18 @@ namespace Cw2
             if (args.Length >= 1)
                 argumenty[0] = args[0];
             else
-                argumenty[0] = "data.csv";
+                argumenty[0] = @"data.csv";
 
             if (args.Length >= 2)
                 argumenty[1] = args[1];
             else
-                argumenty[1] = "żesult.xml";
+                argumenty[1] = @"żesult.xml";
 
 
             if (args.Length >= 3)
                 argumenty[2] = args[2];
             else
-                argumenty[2] = "xml";
+                argumenty[2] = @"xml";
 
             for (int i = 0; i < argumenty.Length; i++)
                 Console.WriteLine(argumenty[i]);
@@ -36,7 +36,7 @@ namespace Cw2
 
             var log = File.Create("łog.txt");
 
-            using (StreamWriter writer = new StreamWriter(log)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            using (StreamWriter writer = new StreamWriter(log)) 
             {
 
                 try
@@ -96,6 +96,7 @@ namespace Cw2
                             }
 
                             FileStream XMLwriter = new FileStream(argumenty[1], FileMode.Create);
+                            StreamWriter Bwriter = new StreamWriter(XMLwriter);
                             XmlSerializer serializer = new XmlSerializer(typeof(HashSet<Student>), new XmlRootAttribute("uczelnia"));
                             serializer.Serialize(XMLwriter, setStudentow);
                             XMLwriter.Close();
