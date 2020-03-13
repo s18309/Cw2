@@ -1,7 +1,9 @@
 ﻿using cw2;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
@@ -33,6 +35,7 @@ namespace Cw2
             for (int i = 0; i < argumenty.Length; i++)
                 Console.WriteLine(argumenty[i]);
 
+            
 
             var log = File.Create("łog.txt");
 
@@ -61,7 +64,7 @@ namespace Cw2
                             for (int i = 0; i < student.Length; i++)
                             {
                                 var matches = regex.Matches(student[i]);
-                                if(matches.Count >= 1)
+                                if (matches.Count >= 1)
                                 {
                                     writer.WriteLine(line);
                                     wpisywac = false;
@@ -85,22 +88,41 @@ namespace Cw2
 
 
                                 };
-                             
+
 
                                 if (!setStudentow.Add(st))
-                                {                                  
+                                {
                                     writer.WriteLine(line);
                                 }
 
 
                             }
 
-                            FileStream XMLwriter = new FileStream(argumenty[1], FileMode.Create);
-                            StreamWriter Bwriter = new StreamWriter(XMLwriter);
-                            XmlSerializer serializer = new XmlSerializer(typeof(HashSet<Student>), new XmlRootAttribute("uczelnia"));
-                            serializer.Serialize(XMLwriter, setStudentow);
-                            XMLwriter.Close();
-                            XMLwriter.Dispose();
+                            FileStream Typewriter = new FileStream(argumenty[1], FileMode.Create);
+                            
+
+                            if (argumenty[2] == "xml")
+                            {
+                                StreamWriter Bwriter = new StreamWriter(Typewriter);
+                                XmlSerializer serializer = new XmlSerializer(typeof(HashSet<Student>), new XmlRootAttribute("uczelnia"));
+                                serializer.Serialize(Typewriter, setStudentow);
+                                Bwriter.Dispose();
+
+                            }
+                            else if (argumenty[2] == "json")
+                            {
+                                using (StreamWriter Jsonwriter = new StreamWriter(Typewriter))
+                                {
+                                    foreach (var stud in setStudentow)
+                                        Jsonwriter.WriteLine(JsonConvert.SerializeObject(stud));
+
+                                }
+                            
+                            }
+
+                            Typewriter.Close();
+                            Typewriter.Dispose();
+
                         }
                     }
 
